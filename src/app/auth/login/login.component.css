@@ -1,0 +1,11 @@
+.login {
+  display: flex;
+  flex-direction: column;
+  justify-items: center;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.login>button {
+  max-width: 15rem;
+}

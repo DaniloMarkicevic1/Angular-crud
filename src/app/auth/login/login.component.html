@@ -1,0 +1,12 @@
+<form class="login" [formGroup]='loginForm' (ngSubmit)="onSubmit()">
+
+<p>Login!</p>
+  <app-input name='username' [formGroup]="loginForm" />
+  <app-input name='password' type='password' [formGroup]="loginForm" />
+  @if(error()){
+  <p class="error">
+    {{error()}}
+  </p>
+  }
+  <button type="submit">Login</button>
+</form>

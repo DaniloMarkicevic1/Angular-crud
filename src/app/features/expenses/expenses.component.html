@@ -1,0 +1,65 @@
+<button (click)='onAdd()'>+ Add Expense </button>
+
+<ul>
+  @if(expensesList().length === 0) {
+  <li>No expenses added.</li>/
+  }
+  @for(item of expensesList();track item.id) {
+  <li [class]="item.name ? null : 'noName'">
+  <div>
+    <p>
+      Item: @if(item.name) {
+      {{item.name}}
+      } @else if(!item.name) {
+      /* No name entered */
+      }
+    </p>
+    <p>
+      Price: @if(item.price) {
+      {{item.price}}
+      } @else if(!item.price) {
+      /* No Price entered */
+      }
+    </p>
+    <p>
+      Amount: @if(item.amount) {
+      {{item.amount}}
+      } @else if(!item.amount) {
+      /* No Price entered */
+      }
+    </p>
+
+    <p>
+      Date: @if(item.date) {
+      {{item.date }}
+      } @else if(!item.date) {
+      /* No Price entered */
+      }
+    </p>
+    </div>
+    <div class="buttons">
+      <button type="button" (click)="onEdit(item)">Edit</button>
+      <button type="button" class="deleteBtn" (click)="onDelete(item.id)">Delete</button>
+    </div>
+  </li>
+  }
+</ul>
+
+<dialog #myDialog>
+  <form [formGroup]='expensesFormGroup' (ngSubmit)='onSubmit()'>
+    <app-input name='name' [formGroup]='expensesFormGroup' />
+    <app-input name='price' [formGroup]='expensesFormGroup' />
+    <app-input name='amount' [formGroup]='expensesFormGroup' />
+    <app-input name='date' type='date' [formGroup]='expensesFormGroup' />
+
+    <button type="submit" style="margin-top: 0.8rem;">
+      @if(isEdit()){
+      Edit expense
+      }
+      @if(!isEdit()){
+      Create new Expense
+      }
+    </button>
+    <button type="button" class='deleteBtn' style="margin-top: 0.8rem;" (click)="onCloseModal()">Close</button>
+  </form>
+</dialog>

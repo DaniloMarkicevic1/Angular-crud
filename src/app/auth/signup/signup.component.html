@@ -1,0 +1,10 @@
+<form [formGroup]="signupForm" (ngSubmit)="onSubmit()">
+  <p>Signup!</p>
+  <app-input name="username" [formGroup]="signupForm" />
+  <app-input name="password" type="password" [formGroup]="signupForm" />
+  <app-input name="confirm_password" type="password" [formGroup]="signupForm" />
+  @if(!signupError().success && signupError().message) {
+  <app-error [errorText]="signupError().message" />
+  }
+  <button type="submit">Submit</button>
+</form>

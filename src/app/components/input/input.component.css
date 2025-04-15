@@ -1,0 +1,32 @@
+input::placeholder {
+  text-transform: capitalize;
+}
+
+input:focus {
+  border-color: #007bff;
+  box-shadow: 0 4px 6px rgba(0, 123, 255, 0.2);
+  outline: none;
+}
+
+input {
+  padding: 1rem;
+  border: 2px solid #ccc;
+  border-radius: 0.5rem;
+  background-color: #fff;
+  font-size: 1rem;
+  color: #333;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+label {
+  display: flex;
+  flex-direction: column;
+  text-transform: capitalize;
+}
+
+.error {
+  color: red;
+  font-size: 0.75rem;
+}
+

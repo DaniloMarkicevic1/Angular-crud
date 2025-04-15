@@ -1,0 +1,79 @@
+:host {
+  width: 100%;
+  padding: 1rem;
+}
+
+dialog {
+  background-color: #fff;
+  border: 1px solid #ccc;
+  padding: 20px;
+  border-radius: 5px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
+  opacity: 0;
+  /* Initially hidden */
+  transform: translateY(-20px);
+  /* Initially positioned off-screen */
+  transition: opacity 0.3s ease-in-out, transform 0.3s ease-in-out;
+}
+
+dialog[open] {
+  opacity: 1;
+}
+
+/* Optional: Add a backdrop */
+.modal-backdrop {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  opacity: 0;
+  /* Initially hidden */
+  transition: opacity 0.3s ease-in-out;
+}
+
+/* Display the backdrop when the dialog is open */
+dialog[open]~.modal-backdrop {
+  display: block;
+  opacity: 1;
+}
+
+dialog>form>button {
+  width: 100%;
+}
+
+ul {
+  display: grid;
+  gap: 1rem;
+  width: auto;
+  list-style-type: none;
+  margin: 0;
+  padding: 1rem 0;
+}
+
+li {
+  display: flex;
+  justify-content: space-between;
+  padding: 0.5rem 1rem ;
+  border-radius: 0.5rem;
+  background-color: white;
+}
+
+.buttons {
+  display: flex;
+  gap: 1rem;
+  padding-left: 1rem;
+}
+
+.deleteBtn {
+  background-color: red;
+}
+
+.deleteBtn:hover {
+  opacity: 0.4;
+}
+
+.noName {
+  background-color: #D3D3D3;
+}

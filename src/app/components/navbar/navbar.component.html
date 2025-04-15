@@ -1,0 +1,24 @@
+<nav [class]="isLoggedIn() ? 'nav' : 'nav right'">
+  @if(isLoggedIn()){
+  <section class="navSection">
+    <a [routerLink]="['/']">
+      Profile
+    </a>
+
+    <a [routerLink]="['/expenses']">
+      Expenses
+    </a>
+  </section>
+  }
+
+  <section class="navSection right">
+    @if(!isLoggedIn()) {
+    <a [routerLink]="['/login']">Login</a>
+    <a [routerLink]="['/signup']">Signup</a>
+    }
+
+    @if(isLoggedIn()) {
+    <a [routerLink]="['/login']" (click)='onLogout()'>Logout</a>
+    }
+  </section>
+</nav>

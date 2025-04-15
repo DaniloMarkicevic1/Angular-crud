@@ -1,0 +1,14 @@
+<label [for]="name()" [formGroup]="formGroup">{{ name().replace("_", " ") }}
+  <input onchange="console.log(event.target.value)" [type]="type()" [placeholder]="name()" [formControlName]="name()">
+</label>
+@if(formGroup.get(name())?.hasError('required') && formGroup.get(name())?.dirty) {
+<p class="error">
+  {{name().replace("_", " ")}} is a required field
+</p>
+}
+
+@if(formGroup.get(name())?.hasError('passwordsDoNotMatch') && formGroup.get(name())?.dirty) {
+<p class="error">
+  Passwords must match
+</p>
+}
