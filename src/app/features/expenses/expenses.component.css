@@ -55,7 +55,7 @@ ul {
 li {
   display: flex;
   justify-content: space-between;
-  padding: 0.5rem 1rem ;
+  padding: 0.5rem 1rem;
   border-radius: 0.5rem;
   background-color: white;
 }
@@ -64,6 +64,7 @@ li {
   display: flex;
   gap: 1rem;
   padding-left: 1rem;
+  align-items: center;
 }
 
 .deleteBtn {

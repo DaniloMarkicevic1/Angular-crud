@@ -1,8 +1,12 @@
 <button (click)='onAdd()'>+ Add Expense </button>
 
+
+@if(isLoading()) {
+  <p>Loading...</p>
+} @else {
 <ul>
   @if(expensesList().length === 0) {
-  <li>No expenses added.</li>/
+  <li>No expenses added.</li>
   }
   @for(item of expensesList();track item.id) {
   <li [class]="item.name ? null : 'noName'">
@@ -16,14 +20,14 @@
     </p>
     <p>
       Price: @if(item.price) {
-      {{item.price}}
+      {{item.price | currency }}
       } @else if(!item.price) {
       /* No Price entered */
       }
     </p>
     <p>
       Amount: @if(item.amount) {
-      {{item.amount}}
+      {{ item.amount }}
       } @else if(!item.amount) {
       /* No Price entered */
       }
@@ -31,7 +35,7 @@
 
     <p>
       Date: @if(item.date) {
-      {{item.date }}
+      {{item.date | date }}
       } @else if(!item.date) {
       /* No Price entered */
       }
@@ -45,6 +49,8 @@
   }
 </ul>
 
+}
+<app-pagination />
 <dialog #myDialog>
   <form [formGroup]='expensesFormGroup' (ngSubmit)='onSubmit()'>
     <app-input name='name' [formGroup]='expensesFormGroup' />

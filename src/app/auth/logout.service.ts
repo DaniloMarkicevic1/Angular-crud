@@ -15,7 +15,8 @@ export class LogoutService {
 
   onLogout() {
     const token = localStorage.getItem(environment.authCookieName)
-    this.http.post<string>(this.apiUrl, token).subscribe({
+    this.http.post<string>(this.apiUrl, { token }).subscribe({
+
       next: () => {
         localStorage.removeItem(environment.authCookieName)
         this.appService.isLoggedIn.set(false);

@@ -1,6 +1,7 @@
 import {
   Component,
   computed,
+  effect,
   ElementRef,
   inject,
   OnDestroy,
@@ -15,28 +16,32 @@ import { toObservable } from '@angular/core/rxjs-interop';
 import { AppService } from '../../app.service';
 import { Subscription } from 'rxjs';
 import { Expense } from './expenses.model';
-import { DatePipe } from '@angular/common';
+import { CurrencyPipe, DatePipe } from '@angular/common';
+import { PaginationComponent } from '@/app/components/pagination/pagination.component';
+import { PaginationService } from '@/app/components/pagination/pagination.service';
 
 @Component({
   selector: 'app-expenses',
-  standalone: true,
-  imports: [ReactiveFormsModule, InputComponent],
+  imports: [ReactiveFormsModule, InputComponent, DatePipe, CurrencyPipe, PaginationComponent],
   providers: [DatePipe],
   templateUrl: './expenses.component.html',
-  styleUrl: './expenses.component.css',
+  styleUrl: './expenses.component.css'
 })
 export class ExpensesComponent implements OnInit, OnDestroy {
   @ViewChild('myDialog') myDialog!: ElementRef<HTMLDialogElement>;
 
-  private datePipe = inject(DatePipe)
+  datePipe = inject(DatePipe)
 
   private expensesService = inject(ExpensesService);
   private appService = inject(AppService);
-  userIdToObservable = toObservable(this.appService.loggedInUserId);
+  private paginationService = inject(PaginationService);
 
+  currentPageSubscription: Subscription | undefined;
   userIdSubscription: Subscription | undefined;
+  perPageSubscription: Subscription | undefined;
 
   expensesList = computed(() => this.expensesService.expensesList());
+  isLoading = computed(() => this.expensesService.isLoading());
 
   nnfb = new FormBuilder().nonNullable;
 
@@ -57,13 +62,30 @@ export class ExpensesComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
-    this.userIdSubscription = this.userIdToObservable.subscribe({
+    this.currentPageSubscription = this.paginationService.currentPageToObservable.subscribe({
+      next: (value) => {
+        if (this.appService.loggedInUserId() !== 0) {
+          this.expensesService.fetchExpenses({ page: value, pageSize: this.paginationService.perPage() });
+        }
+      }
+    })
+
+    this.perPageSubscription = this.paginationService.currentPerPageToObservable.subscribe({
+      next: (value) => {
+        if (this.appService.loggedInUserId() !== 0) {
+          this.expensesService.fetchExpenses({ page: this.paginationService.page(), pageSize: value });
+        }
+      }
+    })
+
+    this.userIdSubscription = this.appService.userIdToObservable.subscribe({
       next: (value) => {
         if (value !== 0) {
-          this.expensesService.fetchExpenses({ page: 1, pageSize: 10 });
+          this.expensesService.fetchExpenses({ page: 1, pageSize: this.paginationService.perPage() });
         }
       },
     });
+
   }
 
   onDelete(id: number) {
@@ -84,7 +106,7 @@ export class ExpensesComponent implements OnInit, OnDestroy {
     this.selectedUserId.set(expense.user_id)
     const { date, name, amount, price } = expense
 
-    this.expensesFormGroup.setValue({ date: date.split('T')[0], name, amount, price })
+    this.expensesFormGroup.setValue({ date, name, amount, price })
     this.toggleDialog();
   }
 
@@ -120,5 +142,7 @@ export class ExpensesComponent implements OnInit, OnDestroy {
 
   ngOnDestroy() {
     this.userIdSubscription?.unsubscribe();
+    this.currentPageSubscription?.unsubscribe()
+    this.perPageSubscription?.unsubscribe()
   }
 }

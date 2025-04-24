@@ -5,11 +5,10 @@ import { SignupService } from './signup.service';
 import { ErrorComponent } from '../../components/error/error.component';
 
 @Component({
-  selector: 'app-signup',
-  standalone: true,
-  imports: [ReactiveFormsModule, InputComponent, ErrorComponent],
-  templateUrl: './signup.component.html',
-  styleUrl: './signup.component.css'
+    selector: 'app-signup',
+    imports: [ReactiveFormsModule, InputComponent, ErrorComponent],
+    templateUrl: './signup.component.html',
+    styleUrl: './signup.component.css'
 })
 export class SignupComponent {
   private signupService = inject(SignupService)

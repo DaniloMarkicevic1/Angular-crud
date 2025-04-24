@@ -1,6 +1,8 @@
 import { HttpClient } from '@angular/common/http';
 import { inject, Injectable, signal } from '@angular/core';
 import { environment } from '../environments/environment';
+import { toObservable } from '@angular/core/rxjs-interop';
+import { Subscription } from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
@@ -24,4 +26,7 @@ export class AppService {
         },
       });
   }
+
+  userIdToObservable = toObservable(this.loggedInUserId);
+
 }
